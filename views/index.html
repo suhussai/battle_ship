@@ -31,7 +31,7 @@
     var waiting = false; // flag to invalidate moves when switching turns
 
 
-    function startIt() {
+    function start_it() {
   		Crafty.init(width + 5, height + 5);
   		Crafty.background('rgb(87, 109, 20)');
       if (localStorage.getItem("p1") != null &&
@@ -51,7 +51,7 @@
         Crafty.scene('Lobby');
       }
     }
-    window.addEventListener('load', startIt);
+    window.addEventListener('load', start_it);
 
     function save_game_state() {
       localStorage.setItem('p1', JSON.stringify(p1));
