@@ -1,8 +1,9 @@
+// main game scene
 Crafty.defineScene('Game', function() {
   p1_game_board.prepare_board();
 
+  // check if we are reloading a game setting
   if (p1.ships.length > 0) {
-    console.log('redrawing ship pieces');
     p1.ships.forEach(function(item, index) {
       item.redraw_ship_pieces();
     });
@@ -18,7 +19,6 @@ Crafty.defineScene('Game', function() {
   p2_game_board.prepare_board();
 
   if (p2.ships.length > 0) {
-    console.log('redrawing ship pieces');
     p2.ships.forEach(function(item, index) {
       item.redraw_ship_pieces();
     });
@@ -34,8 +34,6 @@ Crafty.defineScene('Game', function() {
   players[current_player].take_turn();
 
   this.show_victory = this.bind('ShipShot', function(ship_name) {
-    console.log('checking if game is over');
-
     if (ship_name != undefined) {
       Crafty.e('2D, DOM, Color, Button').attr({
         x: 0,
@@ -67,7 +65,6 @@ Crafty.defineScene('Game', function() {
       }
     });
     if (game_over) {
-      console.log('GAME OVER!!');
       waiting = true;
       setTimeout(function() {
         Crafty("Button, ButtonText").each(function(){
@@ -77,13 +74,10 @@ Crafty.defineScene('Game', function() {
         waiting = false;
         Crafty.scene('Victory');
       }, 2000);
-    } else {
-      console.log('GAME NOT OVER!!');
     }
   });
 
   this.bind('switch_turns', function() {
-    console.log('switching turns',current_player, (current_player + 1) % players.length);
     current_player = (current_player + 1) % players.length;
     waiting = true;
     setTimeout(function() {
@@ -104,8 +98,10 @@ Crafty.defineScene('Game', function() {
 	this.unbind('ShipShot', this.show_victory);
 });
 
+// victory scene
+// calculates stats and displays
+// winner and stat information
 Crafty.defineScene('Victory', function() {
-
   Crafty.e('2D, DOM, Color').attr({
     x: 0, y: 0,
     w: width,
@@ -160,7 +156,6 @@ Crafty.defineScene('Victory', function() {
     .color("lightgrey")
     .css({'border': '2px solid grey'})
     .bind('Click', function(MouseEvent) {
-      console.log('removing sign...');
       Crafty("Curtain, CurtainText, Button, ButtonText").each(function(){
         this.destroy();
       });
@@ -212,7 +207,6 @@ Crafty.defineScene('Lobby', function(){
 		.color("lightgrey")
 		.css({'border': '2px solid grey'})
 		.bind('Click', function(MouseEvent) {
-			console.log('removing sign...');
 			Crafty("Curtain, CurtainText, Button, ButtonText").each(function(){
 				this.destroy();
 			});

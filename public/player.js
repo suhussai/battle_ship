@@ -7,6 +7,9 @@ class battle_ship_game_player {
 		this.shots_fired = 0;
 	}
 
+	// for bulk setting data values
+	// when reloading game settings
+	// after game refresh
 	set_data(data) {
 		let board = new battle_ship_game_board();
 		board.set_data(data.battle_ship_game_board);
@@ -34,17 +37,8 @@ class battle_ship_game_player {
 		return ships_left;
 	}
 
-	ship_pieces_left() {
-		let ship_pieces_left = 0;
-		this.ships.forEach(function(item, index) {
-			ship_pieces_left = ship_pieces_left + item.ship_pieces;
-		});
-		return ship_pieces_left;
-	}
-
+	// setup UI component to handle turn switch
 	take_turn() {
-		console.log('setting up block...');
-
 		var player = this;
 		Crafty.e('2D, DOM, Color, Mouse, Curtain').attr({
 			x: 0, y: 0,
@@ -72,7 +66,6 @@ class battle_ship_game_player {
 		.color("lightgrey")
 		.css({'border': '2px solid grey'})
 		.bind('Click', function(MouseEvent) {
-			console.log('removing sign...');
 			Crafty("Curtain, CurtainText, Button, ButtonText").each(function(){
 				this.destroy();
 			});

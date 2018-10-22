@@ -19,6 +19,9 @@ class battle_ship_game_board {
 		this.destroyed_tiles = {};
 	}
 
+  // for bulk setting data values
+	// when reloading game settings
+	// after game refresh
 	set_data(data) {
 		this.start_x = data.start_x;
 		this.start_y = data.start_y;
@@ -35,6 +38,8 @@ class battle_ship_game_board {
 		this.destroyed_tiles = data.destroyed_tiles;
 	}
 
+  // draw checkered board map
+  // or redraw previous game settings
 	prepare_board() {
 		var board = this;
 		for (var x = this.start_x; x < this.end_x; x = x + this.tile_width) {
@@ -83,16 +88,12 @@ class battle_ship_game_board {
 
 	// hide board during opposing player's turn
 	hide_board() {
-		console.log('hiding board...');
-
 		var board = this;
 		Crafty("Tile, Ship").each(function() {
 			if (this.has('ShipDestroyed') || this.has('TileDestroyed')) {
-				console.log('destroyed ship/tile found', this.x, this.y);
 				return true;
 			}
 			if (this.has('HiddenTile')) {
-				console.log('tile already covered', this.x, this.y);
 				return true;
 			}
 			var underlying_tile = this;
@@ -110,31 +111,21 @@ class battle_ship_game_board {
 								} else if (underlying_tile.has('Tile')) {
 									underlying_tile.trigger('TileHit');
 								}
-								console.log('clicked hidden board');
 							});
-						//console.log('Placed hidden on my board', this.x/60, this.y/60);
-						// this.css({'background-image': 'repeating-linear-gradient(45deg, white, white, white 10px, black 10px, white 20px)'});
-					} else {
-						//console.log('NOT my board', this.x/60, this.y/60);
 					}
 		});
 	}
 
 	// show board during player turn
 	show_board() {
-		console.log('showing board...');
 		var board = this;
 		Crafty("HiddenTile").each(function() {
 			if (this.has('Destroyed')) {
-				console.log('destroyed ship found', this.x, this.y);
 				return true;
 			}
 			if (board.start_x <= this.x && this.x < board.end_x &&
 					board.start_y <= this.y && this.y < board.end_y) {
-						//console.log('my board', this.x, this.y);
 						this.destroy();
-					} else {
-						//console.log('NOT my board', this.x, this.y);
 					}
 		});
 	}

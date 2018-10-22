@@ -23,10 +23,12 @@
         );
     var p1 = new battle_ship_game_player("Player 1", p1_game_board);
     var p2 = new battle_ship_game_player("Player 2", p2_game_board);
+
+    // keeps track of whose turn it is
     var current_player = Math.random() > 0.5 ? 0 : 1;
     var players = [p1,p2];
     var game_over = false;
-    var waiting = false;
+    var waiting = false; // flag to invalidate moves when switching turns
 
 
     function startIt() {
@@ -34,7 +36,6 @@
   		Crafty.background('rgb(87, 109, 20)');
       if (localStorage.getItem("p1") != null &&
           localStorage.getItem("p2") != null) {
-        console.log('reloading p1 and p2');
         let p1_data = JSON.parse(localStorage.getItem("p1"));
         let p2_data = JSON.parse(localStorage.getItem("p2"));
         p1.set_data(p1_data);

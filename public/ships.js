@@ -8,6 +8,9 @@ class ship {
 		this.destroyed_ship_pieces = {};
 	}
 
+  // for bulk setting data values
+	// when reloading game settings
+	// after game refresh
 	set_data(data) {
 		this.ship_color = data.ship_color;
 		this.ship_name = data.ship_name;
@@ -25,7 +28,6 @@ class ship {
 			let tile = Crafty(tile_id);
 
 			if (tile.has('Ship') || tile.has('ShipDestroyed')) {
-				console.log('this is already filled');
 				return true;
 			}
 
@@ -36,7 +38,6 @@ class ship {
 				tile.css({'border': '1px solid black'});
 				tile.bind('ShipHit', function() {
 					if (waiting) {return true;}
-					console.log('we got a hit');
 					if (this.has('Ship')) {
 						this.addComponent("ShipDestroyed");
 						this.removeComponent("Ship");
@@ -46,11 +47,9 @@ class ship {
 						ship.destroyed_ship_pieces[[this.x, this.y]] = true;
 						if (ship.ship_pieces < 1) {
 							players[current_player].ships_sunk += 1;
-							console.log('ship destroyed!!!');
 							Crafty.trigger('ShipShot', ship.ship_name);
 						} else {
 							players[current_player].shots_fired += 1;
-							console.log('wrecked!!');
 						}
 						if (!game_over) {
 							Crafty.trigger('switch_turns');
@@ -91,7 +90,6 @@ class ship {
 	}
 
 	can_place_ship_piece(x,y) {
-		//console.log(this.battle_ship_game_board.occupied_tiles);
 		if (this.battle_ship_game_board.start_x <= this.xtc(x) && this.xtc(x) < this.battle_ship_game_board.end_x &&
 				this.battle_ship_game_board.start_y <= this.ytc(y) && this.ytc(y) < this.battle_ship_game_board.end_y) {
 					return Crafty(this.battle_ship_game_board.occupied_tiles[this.xtc(x).toString()+","+this.ytc(y).toString()]).has('Tile');
@@ -104,7 +102,6 @@ class ship {
 			this.ship_piece_locations.push([this.xtc(x),this.ytc(y)]);
 			var ship = this;
 			this.ship_pieces = this.ship_pieces + 1;
-			//console.log("placing piece", x, y);
 			let tile_id = this.battle_ship_game_board.occupied_tiles[(this.xtc(x)).toString()+","+(this.ytc(y)).toString()];
 			let tile = Crafty(tile_id);
 
@@ -114,7 +111,6 @@ class ship {
 			tile.css({'border': '1px solid black'});
 			tile.bind('ShipHit', function() {
 				if (waiting) {return true;}
-				console.log('we got a hit');
 				if (this.has('Ship')) {
 					this.addComponent("ShipDestroyed");
 					this.removeComponent("Ship");
@@ -124,11 +120,9 @@ class ship {
 					ship.destroyed_ship_pieces[[this.x, this.y]] = true;
 					if (ship.ship_pieces < 1) {
 						players[current_player].ships_sunk += 1;
-						console.log('ship destroyed!!!');
 						Crafty.trigger('ShipShot', ship.ship_name);
 					} else {
 						players[current_player].shots_fired += 1;
-						console.log('wrecked!!');
 					}
 					if (!game_over) {
 						Crafty.trigger('switch_turns');
@@ -137,9 +131,6 @@ class ship {
 			});
 			return true;
 		} else {
-			//console.log('cant place');
-			//console.log(x);
-			//console.log(y);
 			return false;
 		}
 	}
@@ -159,11 +150,8 @@ class line_ship extends ship {
 		while (placed == false) {
 			random_x = this.get_random_x();
 			random_y = this.get_random_y();
-			//console.log('setting Line random_x and random_y');
-			//console.log(random_x, random_y);
 			placed = this.can_place_line_piece(random_x, random_y);
 		}
-		//console.log("line coords", placed);
 
 		let this_reference = this;
 		placed.forEach(function(e) {
@@ -172,6 +160,11 @@ class line_ship extends ship {
 
 	}
 
+  // given a starting x and y coords,
+  // this function will attempt to find
+  // a configuration that includes the given
+  // x and y in order to place the ship
+  // in a proper location.
 	can_place_line_piece(random_x, random_y) {
     if (!this.can_place_ship_piece((random_x), (random_y))){
       return false;
@@ -234,17 +227,20 @@ class block_ship extends ship {
 		while (placed == false) {
 			random_x = this.get_random_x();
 			random_y = this.get_random_y();
-			//console.log('setting Block random_x and random_y');
-			//console.log(random_x, random_y);
 			placed = this.can_place_block_piece(random_x, random_y);
 		}
-		//console.log("block coords", placed);
+
 		let this_reference = this;
 		placed.forEach(function(e) {
 			this_reference.place_ship_piece(e[0], e[1]);
 		});
 	}
 
+  // given a starting x and y coords,
+  // this function will attempt to find
+  // a configuration that includes the given
+  // x and y in order to place the ship
+  // in a proper location.
 	can_place_block_piece(random_x, random_y) {
 		if (!this.can_place_ship_piece(random_x, (random_y))){
 			return false;
@@ -306,8 +302,6 @@ class L_ship extends ship {
 		// place L Ship
 		random_x = this.get_random_x();
 		random_y = this.get_random_y();
-		//console.log('setting Boot random_x and random_y');
-		//console.log(random_x, random_y);
 
 		this.place_ship_piece(random_x, random_y);
 		if (Math.random() > 0.5) {
