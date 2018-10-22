@@ -34,7 +34,7 @@
     function start_it() {
       Crafty.init(width + 5, height + 5);
       Crafty.background('rgb(87, 109, 20)');
-      if (false && localStorage.getItem("p1") != null &&
+      if (localStorage.getItem("p1") != null &&
           localStorage.getItem("p2") != null) {
         let p1_data = JSON.parse(localStorage.getItem("p1"));
         let p2_data = JSON.parse(localStorage.getItem("p2"));
