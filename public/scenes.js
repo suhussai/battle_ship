@@ -7,10 +7,10 @@ Crafty.defineScene('Game', function() {
       item.redraw_ship_pieces();
     });
   } else {
-    p1.place_L_ship("Red L Ship", "red");
-    p1.place_block_ship("Green Block Ship", "green");
-    p1.place_line_ship("Blue Line Ship", "blue");
-    p1.place_line_ship("Yellow Line Ship", "yellow");
+    p1.place_L_ship("Red L", "red");
+    p1.place_block_ship("Green Block", "green");
+    p1.place_line_ship("Blue Line", "blue");
+    p1.place_line_ship("Yellow Line", "yellow");
   }
 
   p1_game_board.hide_board();

@@ -32,7 +32,7 @@
     function startIt() {
   		Crafty.init(width + 5, height + 5);
   		Crafty.background('rgb(87, 109, 20)');
-      if (false &&localStorage.getItem("p1") != null &&
+      if (localStorage.getItem("p1") != null &&
           localStorage.getItem("p2") != null) {
         console.log('reloading p1 and p2');
         let p1_data = JSON.parse(localStorage.getItem("p1"));
@@ -53,10 +53,10 @@
     window.addEventListener('load', startIt);
 
     function save_game_state() {
-      // localStorage.setItem('p1', JSON.stringify(p1));
-      // localStorage.setItem('p2', JSON.stringify(p2));
-      // localStorage.setItem('game_over', JSON.stringify(game_over));
-      // localStorage.setItem('current_player', JSON.stringify(current_player));
+      localStorage.setItem('p1', JSON.stringify(p1));
+      localStorage.setItem('p2', JSON.stringify(p2));
+      localStorage.setItem('game_over', JSON.stringify(game_over));
+      localStorage.setItem('current_player', JSON.stringify(current_player));
     }
   </script>
 </head>
