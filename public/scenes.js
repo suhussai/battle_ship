@@ -77,7 +77,7 @@ Crafty.defineScene('Game', function() {
     }
   });
 
-  this.bind('switch_turns', function() {
+  this.switch_turns = this.bind('switch_turns', function() {
     current_player = (current_player + 1) % players.length;
     waiting = true;
     setTimeout(function() {
@@ -95,7 +95,8 @@ Crafty.defineScene('Game', function() {
   });
 
 }, function() {
-	this.unbind('ShipShot', this.show_victory);
+  this.unbind('ShipShot', this.show_victory);
+  this.unbind('switch_turns', this.switch_turns);
 });
 
 // victory scene
@@ -156,9 +157,25 @@ Crafty.defineScene('Victory', function() {
     .color("lightgrey")
     .css({'border': '2px solid grey'})
     .bind('Click', function(MouseEvent) {
-      Crafty("Curtain, CurtainText, Button, ButtonText").each(function(){
+
+      // clean up for next game
+      console.log('cleaning up...')
+      Crafty("*").each(function(){
         this.destroy();
       });
+      players.forEach(function(item, index) {
+        item.battle_ship_game_board.destroyed_tiles = {};
+        item.battle_ship_game_board.occupied_tiles = {};
+        item.ships = [];
+        item.ships_sunk = 0;
+        item.shots_fired = 0;
+      });
+
+      current_player = Math.random() > 0.5 ? 0 : 1;
+      players = [p1,p2];
+      game_over = false;
+      waiting = false;
+
       Crafty.enterScene('Lobby');
     });
 
@@ -199,31 +216,31 @@ Crafty.defineScene('Lobby', function(){
             weight: 'bold'
           });
 
-		Crafty.e('2D, DOM, Color, Mouse, Button').attr({
-			x: 0, y: height*0.6,
-			w: width,
-			h: height*0.1
-		})
-		.color("lightgrey")
-		.css({'border': '2px solid grey'})
-		.bind('Click', function(MouseEvent) {
-			Crafty("Curtain, CurtainText, Button, ButtonText").each(function(){
-				this.destroy();
-			});
+    Crafty.e('2D, DOM, Color, Mouse, Button').attr({
+      x: 0, y: height*0.6,
+      w: width,
+      h: height*0.1
+    })
+    .color("lightgrey")
+    .css({'border': '2px solid grey'})
+    .bind('Click', function(MouseEvent) {
+      Crafty("Curtain, CurtainText, Button, ButtonText").each(function(){
+        this.destroy();
+      });
       Crafty.enterScene('Game');
-		});
+    });
 
-		Crafty.e('2D, DOM, Text, ButtonText').attr({
-			x: 0, y: height*0.62,
-			w: width,
-			h: height*0.1
-		})
-		.text('Click here to start game.')
-		.textAlign("center")
-		.textColor("#000000")
-		.textFont({
-			size: '20px',
-			weight: 'bold'
-		});
+    Crafty.e('2D, DOM, Text, ButtonText').attr({
+      x: 0, y: height*0.62,
+      w: width,
+      h: height*0.1
+    })
+    .text('Click here to start game.')
+    .textAlign("center")
+    .textColor("#000000")
+    .textFont({
+      size: '20px',
+      weight: 'bold'
+    });
 
 });
