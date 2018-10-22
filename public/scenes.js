@@ -1,6 +1,3 @@
-// Game scene
-// -------------
-// Runs the core gameplay loop
 Crafty.defineScene('Game', function() {
   p1_game_board.prepare_board();
 
@@ -104,15 +101,9 @@ Crafty.defineScene('Game', function() {
   });
 
 }, function() {
-	// Remove our event binding from above so that we don't
-	//  end up having multiple redundant event watchers after
-	//  multiple restarts of the game
 	this.unbind('ShipShot', this.show_victory);
 });
 
-// Victory scene
-// -------------
-// Tells the player when they've won and lets them start a new game
 Crafty.defineScene('Victory', function() {
 
   Crafty.e('2D, DOM, Color').attr({
@@ -160,8 +151,6 @@ Crafty.defineScene('Victory', function() {
           });
   });
 
-	// After a short delay, watch for the player to press a key, then restart
-	// the game when a key is pressed
   setTimeout(function() {
     Crafty.e('2D, DOM, Color, Mouse, Button').attr({
       x: 0, y: height*0.8,
@@ -194,13 +183,7 @@ Crafty.defineScene('Victory', function() {
 
 }, function() {});
 
-// Loading scene
-// -------------
-// Handles the loading of binary assets such as images and audio files
 Crafty.defineScene('Lobby', function(){
-	// Draw some text for the player to see in case the file
-	//  takes a noticeable amount of time to load
-
     Crafty.background("#000");
     Crafty.e("2D, DOM, Text, Curtain")
           .attr({ x: 0, y: height/3, w: width })
