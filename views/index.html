@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <script type="text/javascript" src="src/crafty-min.js"></script>
-  <script type="text/javascript" src="src/game.js"></script>
-  <script type="text/javascript" src="src/components.js"></script>
-  <script type="text/javascript" src="src/scenes.js"></script>
+  <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgo=">
+  <script type="text/javascript" src="crafty-min.js"></script>
+  <script type="text/javascript" src="game.js"></script>
+  <script type="text/javascript" src="components.js"></script>
+  <script type="text/javascript" src="scenes.js"></script>
   <script>
     var width = 480, height = 480, x_tile_count = 8, y_tile_count = 8,
         start_x_p1 = 0, start_y_p1 = 0, end_x_p1 = width, end_y_p1 = height/2,
@@ -29,7 +30,7 @@
     function startIt() {
   		Crafty.init(width + 5, height + 5);
   		Crafty.background('rgb(87, 109, 20)');
-      if (localStorage.getItem("p1") != null &&
+      if (false &&localStorage.getItem("p1") != null &&
           localStorage.getItem("p2") != null) {
         console.log('reloading p1 and p2');
         let p1_data = JSON.parse(localStorage.getItem("p1"));
@@ -50,10 +51,10 @@
     window.addEventListener('load', startIt);
 
     function save_game_state() {
-      localStorage.setItem('p1', JSON.stringify(p1));
-      localStorage.setItem('p2', JSON.stringify(p2));
-      localStorage.setItem('game_over', JSON.stringify(game_over));
-      localStorage.setItem('current_player', JSON.stringify(current_player));
+      // localStorage.setItem('p1', JSON.stringify(p1));
+      // localStorage.setItem('p2', JSON.stringify(p2));
+      // localStorage.setItem('game_over', JSON.stringify(game_over));
+      // localStorage.setItem('current_player', JSON.stringify(current_player));
     }
   </script>
 </head>

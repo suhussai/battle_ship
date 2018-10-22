@@ -1,0 +1,23 @@
+{
+  "name": "BattleShip",
+  "version": "0.0.1",
+  "description": "Basic BattleShip game",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.16.4",
+    "qunit": "^2.7.1"
+  },
+  "engines": {
+    "node": "4.4.5"
+  },
+  "keywords": [
+    "node",
+    "express"
+  ],
+  "license": "MIT",
+  "author": "",
+  "devDependencies": {}
+}
