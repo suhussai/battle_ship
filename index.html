@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script type="text/javascript" src="src/crafty-min.js"></script>
+  <script type="text/javascript" src="src/game.js"></script>
+  <script type="text/javascript" src="src/components.js"></script>
+  <script type="text/javascript" src="src/scenes.js"></script>
+  <script>
+    var width = 480, height = 480, x_tile_count = 8, y_tile_count = 8,
+        start_x_p1 = 0, start_y_p1 = 0, end_x_p1 = width, end_y_p1 = height/2,
+        start_x_p2 = 0, start_y_p2 = end_y_p1, end_x_p2 = width, end_y_p2 = height;
+
+    var p1_game_board = new battle_ship_game_board(
+          x_tile_count, y_tile_count / 2, start_x_p1, start_y_p1,
+          end_x_p1, end_y_p1
+        );
+    var p2_game_board = new battle_ship_game_board(
+          x_tile_count, y_tile_count / 2, start_x_p2, start_y_p2,
+          end_x_p2, end_y_p2
+        );
+    var p1 = new battle_ship_game_player("Player 1", p1_game_board);
+    var p2 = new battle_ship_game_player("Player 2", p2_game_board);
+    var current_player = Math.random() > 0.5 ? 0 : 1;
+    var players = [p1,p2];
+    var game_over = false;
+    var waiting = false;
+
+
+    function startIt() {
+  		Crafty.init(width + 5, height + 5);
+  		Crafty.background('rgb(87, 109, 20)');
+      if (localStorage.getItem("p1") != null &&
+          localStorage.getItem("p2") != null) {
+        console.log('reloading p1 and p2');
+        let p1_data = JSON.parse(localStorage.getItem("p1"));
+        let p2_data = JSON.parse(localStorage.getItem("p2"));
+        p1.set_data(p1_data);
+        p2.set_data(p2_data);
+        p1_game_board = p1.battle_ship_game_board;
+        p2_game_board = p2.battle_ship_game_board;
+        players = [p1,p2];
+        waiting = false;
+        game_over = JSON.parse(localStorage.getItem('game_over'));
+        current_player = JSON.parse(localStorage.getItem('current_player'));
+        Crafty.scene('Game');
+      } else {
+        Crafty.scene('Lobby');
+      }
+    }
+    window.addEventListener('load', startIt);
+
+    function save_game_state() {
+      localStorage.setItem('p1', JSON.stringify(p1));
+      localStorage.setItem('p2', JSON.stringify(p2));
+      localStorage.setItem('game_over', JSON.stringify(game_over));
+      localStorage.setItem('current_player', JSON.stringify(current_player));
+    }
+  </script>
+</head>
+<body onbeforeunload="return save_game_state()">
+</body>
+</html>
