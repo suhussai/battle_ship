@@ -1,6 +1,7 @@
 class ship {
-	constructor(ship_color, battle_ship_game_board) {
+	constructor(ship_name, ship_color, battle_ship_game_board) {
 		this.ship_color = ship_color;
+		this.ship_name = ship_name;
 		this.battle_ship_game_board = battle_ship_game_board;
 		this.ship_pieces = 0;
 		this.ship_piece_locations = [];
@@ -9,6 +10,7 @@ class ship {
 
 	set_data(data) {
 		this.ship_color = data.ship_color;
+		this.ship_name = data.ship_name;
 		this.battle_ship_game_board = data.battle_ship_game_board;
 		this.ship_pieces = data.ship_pieces;
 		this.ship_piece_locations = data.ship_piece_locations;
@@ -45,7 +47,7 @@ class ship {
 						if (ship.ship_pieces < 1) {
 							players[current_player].ships_sunk += 1;
 							console.log('ship destroyed!!!');
-							Crafty.trigger('ShipShot');
+							Crafty.trigger('ShipShot', ship.ship_name);
 						} else {
 							players[current_player].shots_fired += 1;
 							console.log('wrecked!!');
@@ -123,7 +125,7 @@ class ship {
 					if (ship.ship_pieces < 1) {
 						players[current_player].ships_sunk += 1;
 						console.log('ship destroyed!!!');
-						Crafty.trigger('ShipShot');
+						Crafty.trigger('ShipShot', ship.ship_name);
 					} else {
 						players[current_player].shots_fired += 1;
 						console.log('wrecked!!');
@@ -145,8 +147,8 @@ class ship {
 }
 
 class line_ship extends ship {
-	constructor(ship_color, battle_ship_game_board) {
-		super(ship_color, battle_ship_game_board)
+	constructor(ship_name, ship_color, battle_ship_game_board) {
+		super(ship_name, ship_color, battle_ship_game_board)
 	}
 
 	place_line_ship_pieces() {
@@ -221,8 +223,8 @@ class line_ship extends ship {
 }
 
 class block_ship extends ship {
-	constructor(ship_color, battle_ship_game_board) {
-		super(ship_color, battle_ship_game_board)
+	constructor(ship_name, ship_color, battle_ship_game_board) {
+		super(ship_name, ship_color, battle_ship_game_board)
 	}
 
 	place_block_ship_pieces() {
@@ -293,8 +295,8 @@ class block_ship extends ship {
 }
 
 class L_ship extends ship {
-	constructor(ship_color, battle_ship_game_board) {
-		super(ship_color, battle_ship_game_board);
+	constructor(ship_name, ship_color, battle_ship_game_board) {
+		super(ship_name, ship_color, battle_ship_game_board);
 	}
 
 	place_L_ship_pieces() {
@@ -428,22 +430,22 @@ class battle_ship_game_player {
 
 	}
 
-	place_L_ship(L_ship_color) {
-		this.L_ship = new L_ship(L_ship_color, this.battle_ship_game_board);
+	place_L_ship(L_ship_name, L_ship_color) {
+		this.L_ship = new L_ship(L_ship_name, L_ship_color, this.battle_ship_game_board);
 		this.L_ship.place_L_ship_pieces();
 
 		this.ships.push(this.L_ship);
 	}
 
-	place_block_ship(block_ship_color) {
-		this.block_ship = new block_ship(block_ship_color, this.battle_ship_game_board);
+	place_block_ship(block_ship_name, block_ship_color) {
+		this.block_ship = new block_ship(block_ship_name, block_ship_color, this.battle_ship_game_board);
 		this.block_ship.place_block_ship_pieces();
 
 		this.ships.push(this.block_ship);
 	}
 
-	place_line_ship(line_ship_color) {
-		this.line_ship = new line_ship(line_ship_color, this.battle_ship_game_board);
+	place_line_ship(line_ship_name, line_ship_color) {
+		this.line_ship = new line_ship(line_ship_name, line_ship_color, this.battle_ship_game_board);
 		this.line_ship.place_line_ship_pieces();
 
 		this.ships.push(this.line_ship);

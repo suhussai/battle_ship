@@ -10,10 +10,10 @@ Crafty.defineScene('Game', function() {
       item.redraw_ship_pieces();
     });
   } else {
-    p1.place_L_ship("red");
-    p1.place_block_ship("green");
-    p1.place_line_ship("blue");
-    p1.place_line_ship("yellow");
+    p1.place_L_ship("Red L Ship", "red");
+    p1.place_block_ship("Green Block Ship", "green");
+    p1.place_line_ship("Blue Line Ship", "blue");
+    p1.place_line_ship("Yellow Line Ship", "yellow");
   }
 
   p1_game_board.hide_board();
@@ -26,18 +26,44 @@ Crafty.defineScene('Game', function() {
       item.redraw_ship_pieces();
     });
   } else {
-    p2.place_L_ship("red");
-    p2.place_block_ship("green");
-    p2.place_line_ship("blue");
-    p2.place_line_ship("yellow");
+    p2.place_L_ship("Red L", "red");
+    p2.place_block_ship("Green Block", "green");
+    p2.place_line_ship("Blue Line", "blue");
+    p2.place_line_ship("Yellow Line", "yellow");
   }
 
   p2_game_board.hide_board();
 
   players[current_player].take_turn();
 
-  this.show_victory = this.bind('ShipShot', function() {
+  this.show_victory = this.bind('ShipShot', function(ship_name) {
     console.log('checking if game is over');
+
+    if (ship_name != undefined) {
+      Crafty.e('2D, DOM, Color, Button').attr({
+        x: 0,
+        y: players[current_player].battle_ship_game_board.start_y + height*0.2,
+        w: width,
+        h: height*0.1
+      })
+      .color("lightgrey")
+      .css({'border': '2px solid grey'});
+
+      Crafty.e('2D, DOM, Text, ButtonText').attr({
+        x: 0,
+        y: players[current_player].battle_ship_game_board.start_y + height*0.2,
+        w: width,
+        h: height*0.1
+      })
+      .text('You just destroyed the ' + ship_name + ' ship')
+      .textAlign("center")
+      .textColor("#000000")
+      .textFont({
+        size: '20px',
+        weight: 'bold'
+      });
+    }
+
     players.forEach(function(item, index) {
       if (item.ships_left() < 1) {
         game_over = true;
@@ -47,6 +73,10 @@ Crafty.defineScene('Game', function() {
       console.log('GAME OVER!!');
       waiting = true;
       setTimeout(function() {
+        Crafty("Button, ButtonText").each(function(){
+          this.destroy();
+        });
+
         waiting = false;
         Crafty.scene('Victory');
       }, 2000);
@@ -60,6 +90,10 @@ Crafty.defineScene('Game', function() {
     current_player = (current_player + 1) % players.length;
     waiting = true;
     setTimeout(function() {
+      Crafty("Button, ButtonText").each(function(){
+        this.destroy();
+      });
+
       players.forEach(function(item, index) {
         item.battle_ship_game_board.hide_board();
       });
