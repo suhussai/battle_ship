@@ -192,12 +192,7 @@ Crafty.defineScene('Victory', function() {
     });
   }, 3000);
 
-}, function() {
-	// Remove our event binding from above so that we don't
-	//  end up having multiple redundant event watchers after
-	//  multiple restarts of the game
-	this.unbind('KeyDown', this.restart_game);
-});
+}, function() {});
 
 // Loading scene
 // -------------
