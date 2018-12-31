@@ -8,7 +8,8 @@
   },
   "dependencies": {
     "express": "^4.16.4",
-    "qunit": "^2.7.1"
+    "qunit": "^2.7.1",
+    "merge": ">=1.2.1"
   },
   "engines": {
     "node": "4.4.5"
